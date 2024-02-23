@@ -2,7 +2,7 @@
 
 void execute_opcodes(FILE *file)
 {
-	int line_number;
+	int line_number, i;
 	char line[20];
 	stack_t *head = NULL;
 	
@@ -21,7 +21,7 @@ void execute_opcodes(FILE *file)
 		if (!opcode)
 			continue;
 
-		int i = 0;
+		i = 0;
 		while (instructions[i].opcode)
 		{
 			if (strcmp(instructions[i].opcode, opcode) == 0)

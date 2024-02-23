@@ -12,13 +12,15 @@ char *op_arg = NULL;
 
 int main(int argc, char *argv[])
 {
+	FILE *file;
+
 	if (argc != 2)
 	{
 		printf("USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
 
-	FILE *file = fopen(argv[1], "r");
+	file = fopen(argv[1], "r");
 	if (file == NULL)
 	{
 		printf("Error: Can't open file <file>\n");
