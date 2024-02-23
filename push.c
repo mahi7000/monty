@@ -1,8 +1,17 @@
 #include "monty.h"
 
-void push(stack_t **head, int line_number, int data)
+void push(stack_t **head, unsigned int line_number)
 {
 	stack_t *temp;
+	int data;
+
+	if (!op_arg)
+	{
+		fprintf(stderr ,"L%d: usage: push integer", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	data = atoi(op_arg);
 
 	if (*head == NULL)
 	{
@@ -20,16 +29,6 @@ void push(stack_t **head, int line_number, int data)
 		temp->next = *head;
 
 		*head = temp;
-	}
-	line_number++;
-}
-
-void pall(stack_t **head, int line_number)
-{
-	while (*head != NULL)
-	{
-		printf("%d\n", (*head)->n);
-		*head = (*head)->next;
 	}
 	line_number++;
 }

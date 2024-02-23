@@ -6,20 +6,38 @@ void execute_opcodes(FILE *file)
 	char line[20];
 	stack_t *head = NULL;
 	
+	instruction_t instructions[3] = {
+		{"push", push},
+		{"pall", pall},
+		{NULL, NULL}};
+
 	line_number = 1;
 	while (fgets(line, sizeof(line), file))
 	{
 		char *opcode = strtok(line, " \t\n");
+		
+		op_arg = strtok(NULL, " \t\n");
 
-		if (strcmp(opcode, "push") == 0)
+		if (!opcode)
+			continue;
+
+		int i = 0;
+		while (instructions[i].opcode)
 		{
-			char *arg = strtok(NULL, " \t\n");
-			int data = atoi(arg);
-
-			push(&head, line_number, data);
+			if (strcmp(instructions[i].opcode, opcode) == 0)
+			{
+				instructions[i].f(&head, line_number);
+				break;
+			}
+			i++;
 		}
-		else if (strcmp(opcode, "pall") == 0)
-			pall(&head, line_number);
+
+		if (!instructions[i].opcode)
+		{
+			fprintf(stderr, "L%d: unknown instruction %s", line_number, opcode);
+			fclose(file);
+			exit(EXIT_FAILURE);
+		}
 
 		line_number++;
 	}
